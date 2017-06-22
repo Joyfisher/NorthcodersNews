@@ -10,7 +10,7 @@ const db = config.DB[process.env.NODE_ENV] || process.env.DB;
 
 describe('API', function () {
  // let usefulIds;
-  beforeEach((done) => {
+  before((done) => {
     mongoose.connection.dropDatabase()
       .then(() => saveTestData(db, done));
   });
@@ -27,7 +27,7 @@ describe('API', function () {
         });
     });
   });
-  xdescribe('GET /topics', function () {
+  describe('GET /topics', function () {
     it('responds with all topics', function (done) {
      
       request(server)
@@ -35,7 +35,7 @@ describe('API', function () {
         .end((err, res) => {
           if (err) return console.log(err);
             expect(res.status).to.equal(200);
-            expect(res.body).to.equal(3);
+            expect(res.body.topics.length).to.equal(3);
             done();
   
         });
