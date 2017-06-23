@@ -53,5 +53,31 @@ describe('API', function () {
             done();
         });
     });
+    it('should return all of the articles that match the requested topic', function (done) {
+      
+      request(server)
+        .get('/api/topics/coconuts/articles')
+        .end((err, res) => {
+          if (err) return console.log(err);
+            expect(res.status).to.equal(404);
+            // expect(res.body.articlesByTopic.length).to.equal(0);
+            //  console.log(res.body.articlesByTopic.length);
+            done();
+        });
+    });
 });
+ describe('GET /articles', function () {
+    it('responds with all articles', function (done) {
+     
+      request(server)
+        .get('/api/articles')
+        .end((err, res) => {
+          if (err) return console.log(err);
+            expect(res.status).to.equal(200);
+            expect(res.body.articles.length).to.equal(2);
+            done();
+  
+        });
+    });
+  });
 });

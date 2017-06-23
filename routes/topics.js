@@ -12,19 +12,16 @@ router.get('/', function (req, res) {
             return res.status(500).json(err);
         });
 });
-// map over topics and return all the articles for that topic
-router.get('/:topic_id/articles', function (req, res) {
-    // get the topic id from request object
+router.get('/:topic_id/articles', function (req, res, next) {
     const slug = req.params.topic_id;
-    // Find all articles that belong_to === topic.slug
-    models.Articles.find({belongs_to : slug})
-    .then((articlesByTopic) => {
-        return res.status(200).json({articlesByTopic});
-    })
-    .catch((err) => {
-        return res.status(404).json(err);
-    });
-    
+    models.Articles.find({ belongs_to: slug })
+        .then((articlesByTopic) => {
+            if (articlesByTopic.length < 1) {
+                return next({ status: 404, message: 'Topic not found' });
+            }
+            res.status(200).json({ articlesByTopic });
+        })
+        .catch(next);
 });
 
 module.exports = router;

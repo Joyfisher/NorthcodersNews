@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 if (!process.env.NODE_ENV) process.env.NODE_ENV = 'dev';
 
 const express = require('express');
@@ -26,6 +28,17 @@ app.use('/api', api);
 
 app.listen(PORT, function () {
   console.log(`listening on port ${PORT}`);
+});
+
+app.use(function(err, req, res, next) {
+if (err.status) {
+  res.status(err.status).json({message: err.message});
+}
+next(err);
+});
+
+app.use(function (err, req, res, next) {
+  res.status(500).json({message: 'Server error'});
 });
 
 module.exports = app;
