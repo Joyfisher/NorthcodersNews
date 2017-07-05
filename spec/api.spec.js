@@ -109,4 +109,32 @@ describe('API', function () {
         });
     });
   });
+  describe('PUT /api/articles/:article_id', function() {
+        it('increments the votes of an article by 1', function(done) {
+          console.log(usefulIds);
+            // console.log('votes: ' + usefulIds.articles[0].votes);
+            let articleId = usefulIds.article_id;
+            request(server)
+                .put(`/api/articles/${articleId}?vote=up`)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.status).to.equal(200);
+                    expect(res.body.article.votes).to.equal(1);
+                    done();
+                });
+        });
+        it('decrements the votes of an article by 1', function(done) {
+          console.log(usefulIds);
+            // console.log('votes: ' + usefulIds.articles[0].votes);
+            let articleId = usefulIds.article_id;
+            request(server)
+                .put(`/api/articles/${articleId}?vote=down`)
+                .end((err, res) => {
+                    if (err) return done(err);
+                    expect(res.status).to.equal(200);
+                    expect(res.body.article.votes).to.equal(0);
+                    done();
+                });
+        });
+    });
 });
